@@ -1,0 +1,14 @@
+- !!python/object:__main__.Plant
+  environment: outdoor
+  harvest_date: null
+  name: Kale
+  notes: Grown from seed indoors and then soil.
+  qty: 3
+  start_date: 04-30-2018
+- !!python/object:__main__.Plant
+  environment: outdoor
+  harvest_date: null
+  name: Cilantro
+  notes: Grown from seed indoors and then soil.
+  qty: 2
+  start_date: 04-30-2018
