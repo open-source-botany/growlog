@@ -1,7 +1,9 @@
+import os
+import pprint
 import yaml
 
 
-class Plant:
+class Crop:
 
     environment = None
     name = None
@@ -10,8 +12,8 @@ class Plant:
     harvest_date = None
     notes = None
 
-    def __init__(self, name, start_date, harvest_date=None, 
-            environment='indoor', notes='',qty=1):
+    def __init__(self, name='', start_date='2018', harvest_date=None, 
+            environment='outdoor', notes='',qty=1):
         self.environment = environment
         self.name = name
         self.notes = notes
@@ -19,17 +21,40 @@ class Plant:
         self.start_date = start_date
         self.harvest_date = harvest_date
 
-plant1 = Plant('Kale',
+    def to_dict(self):
+        class_vars = vars(Crop)  # get any "default" attrs defined at the class level
+        inst_vars = vars(self)  # get any attrs defined on the instance (self)
+        all_vars = dict(class_vars)
+        all_vars.update(inst_vars)
+        # filter out private attributes
+        public_vars = {k: v for k, v in all_vars.items() if not k.startswith('_')}
+        del public_vars['to_dict']
+        return public_vars
+
+def seed():
+    plant1 = Crop('Kale',
           '04-30-2018',
-          environment='outdoor',
           qty=3,
           notes='Grown from seed indoors and then soil.')
-plant2 = Plant('Cilantro',
+    plant2 = Crop('Cilantro',
           '04-30-2018',
-          environment='outdoor',
+          environment='indoor',
           qty=2,
           notes='Grown from seed indoors and then soil.')
-data = [plant1, plant2]
-with open('growlog.yml', 'w') as outfile:
-    yaml.dump(data, outfile, default_flow_style=False)
+    data = [plant1.to_dict(), plant2.to_dict()]
+    return data
+
+def save_growlog(data):
+    with open('growlog.yml', 'w') as outfile:
+        yaml.dump(data, outfile, default_flow_style=False)
+
+def load_growlog(seed=False):
+    file_path = './growlog.yml'
+    if not os.path.exists(file_path):
+        print('creating first')
+        data = seed()
+        save_growlog(data)
+    with open(file_path, 'r') as f:
+        grow_dict= yaml.load(f)
+    return [Crop(**data) for data in grow_dict]
 
