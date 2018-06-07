@@ -18,17 +18,17 @@ import click
 
 
 @click.command()
-@click.option('--title', prompt='Your site\'s title',
-              help='The name of your site.')
-@click.option('--description', prompt='Your site\'s description',
-              help='A short description of your site.')
-@click.option('--baseurl', default='http://localhost:1313',
-              help='The base url of your site.')
-def main(title, description, baseurl):
-    click.echo('Retrieving your growlog')
-
-
-@click.command()
 @click.argument('names', nargs=-1)
 def main(names):
     click.echo(repr(names))
+
+
+# @click.command()
+# @click.option('--title', prompt='Your site\'s title',
+#               help='The name of your site.')
+# @click.option('--description', prompt='Your site\'s description',
+#               help='A short description of your site.')
+# @click.option('--baseurl', default='http://localhost:1313',
+#               help='The base url of your site.')
+# def main(title, description, baseurl):
+#     click.echo('Retrieving your growlog')
