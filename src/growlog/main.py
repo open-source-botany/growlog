@@ -1,5 +1,4 @@
 import os
-import pprint
 import yaml
 
 
@@ -12,7 +11,7 @@ class Crop:
     harvest_date = None
     notes = None
 
-    def __init__(self, name='', start_date='2018', harvest_date=None, 
+    def __init__(self, name='', start_date='2018', harvest_date=None,
             environment='outdoor', notes='',qty=1):
         self.environment = environment
         self.name = name

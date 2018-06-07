@@ -1,6 +1,6 @@
 import unittest
 
-from main import Crop, load_growlog, save_growlog
+from growlog.main import Crop, load_growlog, save_growlog
 
 
 class TestCrop(unittest.TestCase):
@@ -25,9 +25,11 @@ class TestCrop(unittest.TestCase):
 
 
 class TestLoader(unittest.TestCase):
-    
+
     def test_load_growlog(self):
+        name = 'Eggplant'
+        date = '05-30-2018'
         g = load_growlog()
         self.assertEquals(type([]), type(g))
-        self.assertEquals(type(Crop), g[0])
+        self.assertEquals(type(Crop(name,date)), type(g[0]))
 
