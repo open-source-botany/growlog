@@ -1,4 +1,5 @@
 import os
+import sys
 
 import yaml
 
@@ -62,3 +63,7 @@ def load_growlog(seed=False):
     with open(file_path, 'r') as f:
         grow_dict = yaml.load(f)
     return [Crop(**crop) for crop in grow_dict]
+
+
+def print_growlog(log):
+    yaml.dump(log, sys.stdout)
