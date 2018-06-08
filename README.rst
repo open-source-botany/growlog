@@ -40,9 +40,9 @@ Overview
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/growlog
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/open-source-botany/growlog/v0.1.1.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/open-source-botany/growlog/v0.1.2.svg
     :alt: Commits since latest release
-    :target: https://github.com/open-source-botany/growlog/compare/v0.1.1...master
+    :target: https://github.com/open-source-botany/growlog/compare/v0.1.2...master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/growlog.svg
     :alt: PyPI Wheel
