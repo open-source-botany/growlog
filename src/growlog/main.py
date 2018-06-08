@@ -34,7 +34,7 @@ class Crop:
         return public_vars
 
 
-def seed():
+def seed_data():
     plant1 = Crop('Kale',
                   '04-30-2018',
                   qty=3,
@@ -57,7 +57,7 @@ def load_growlog(seed=False):
     file_path = './growlog.yml'
     if not os.path.exists(file_path):
         print('creating first')
-        data = seed()
+        data = seed_data()
         save_growlog(data)
     with open(file_path, 'r') as f:
         grow_dict = yaml.load(f)
