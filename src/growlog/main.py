@@ -57,7 +57,6 @@ def save_growlog(data):
 def load_growlog(seed=False):
     file_path = './growlog.yml'
     if not os.path.exists(file_path):
-        print('creating first')
         data = seed_data()
         save_growlog(data)
     with open(file_path, 'r') as f:
@@ -65,5 +64,15 @@ def load_growlog(seed=False):
     return [Crop(**crop) for crop in grow_dict]
 
 
+def convert_list_objs(log):
+    """ Deserializes Crop objects to dict format """
+    return [obj.to_dict() for obj in log]
+
+
 def print_growlog(log):
-    yaml.dump(log, sys.stdout)
+    new_log = convert_list_objs(log)
+    yaml.dump(new_log, sys.stdout)
+
+
+def create_growlog():
+    pass
