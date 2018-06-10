@@ -26,7 +26,7 @@ project = 'growlog'
 year = '2018'
 author = 'Andy Craze'
 copyright = '{0}, {1}'.format(year, author)
-version = release = '0.1.2'
+version = release = '0.2.0'
 
 pygments_style = 'trac'
 templates_path = ['.']
