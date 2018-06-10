@@ -14,8 +14,11 @@ Why does this file exist, and why not put this in __main__?
 
   Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 """
+from datetime import datetime
+
 import click
 
+from growlog.main import add_to_growlog
 from growlog.main import create_growlog
 from growlog.main import load_growlog
 from growlog.main import print_growlog
@@ -23,21 +26,27 @@ from growlog.main import print_growlog
 
 @click.command()
 def main():
-    click.echo('Here is your growlog')
     growlog = load_growlog()
     if growlog:
+        click.echo('Here is your current growlog:\n')
         print_growlog(growlog)
     else:
-        click.echo('No growlog found, creating a new one:')
+        click.echo('No growlog found, creating a new one!\n\n')
         create_growlog()
+        new_crop()
 
 
-# @click.command()
-# @click.option('--title', prompt='Your site\'s title',
-#               help='The name of your site.')
-# @click.option('--description', prompt='Your site\'s description',
-#               help='A short description of your site.')
-# @click.option('--baseurl', default='http://localhost:1313',
-#               help='The base url of your site.')
-# def main(title, description, baseurl):
-#     click.echo('Retrieving your growlog')
+def new_crop():
+    click.echo('**************')
+    click.echo('Add a new crop:')
+    click.echo('**************')
+    crop_data = {}
+    crop_data['name'] = click.prompt('What type of plant is this?')
+    crop_data['environment'] = click.prompt(
+        'Grown outdoor or indoor?', default='outdoor')
+    default_date = datetime.today().strftime('%m-%d-%Y')
+    crop_data['start_date'] = click.prompt(
+        'What is the start date? (dd-mm-yy)', default=default_date)
+    crop_data['qty'] = click.prompt('Quantity?', default=1)
+    crop_data['notes'] = click.prompt('Notes?')
+    add_to_growlog(crop_data)
