@@ -57,7 +57,8 @@ def save_growlog(data):
 def load_growlog(seed=False):
     file_path = './growlog.yml'
     if not os.path.exists(file_path):
-        data = seed_data()
+        # data = seed_data()
+        data = create_growlog()
         save_growlog(data)
     with open(file_path, 'r') as f:
         grow_dict = yaml.load(f)
@@ -74,5 +75,13 @@ def print_growlog(log):
     yaml.dump(new_log, sys.stdout)
 
 
+def add_to_growlog(crop_data):
+    new_crop = Crop(**crop_data)
+    log = load_growlog()
+    log.append(new_crop)
+    log_data = convert_list_objs(log)
+    save_growlog(log_data)
+
+
 def create_growlog():
-    pass
+    return []
