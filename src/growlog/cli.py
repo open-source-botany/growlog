@@ -16,11 +16,20 @@ Why does this file exist, and why not put this in __main__?
 """
 import click
 
+from growlog.main import create_growlog
+from growlog.main import load_growlog
+from growlog.main import print_growlog
+
 
 @click.command()
-@click.argument('names', nargs=-1)
-def main(names):
-    click.echo(repr(names))
+def main():
+    click.echo('Here is your growlog')
+    growlog = load_growlog()
+    if growlog:
+        print_growlog(growlog)
+    else:
+        click.echo('No growlog found, creating a new one:')
+        create_growlog()
 
 
 # @click.command()
