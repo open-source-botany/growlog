@@ -27,8 +27,8 @@ class TestCrop(unittest.TestCase):
 class TestLoader(unittest.TestCase):
 
     def test_load_growlog(self):
-        name = 'Eggplant'
-        date = '05-30-2018'
         g = load_growlog()
         self.assertEquals(type([]), type(g))
-        self.assertEquals(type(Crop(name, date)), type(g[0]))
+        # name = 'Eggplant'
+        # date = '05-30-2018'
+        # self.assertEquals(type(Crop(name, date)), type(g[0]))
