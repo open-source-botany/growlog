@@ -35,22 +35,8 @@ class Crop:
         return public_vars
 
 
-def seed_data():
-    plant1 = Crop('Kale',
-                  '04-30-2018',
-                  qty=3,
-                  notes='Grown from seed indoors and then soil.')
-    plant2 = Crop('Cilantro',
-                  '04-30-2018',
-                  environment='indoor',
-                  qty=2,
-                  notes='Grown from seed indoors and then soil.')
-    data = [plant1.to_dict(), plant2.to_dict()]
-    return data
-
-
 def save_growlog(data):
-    with open('growlog.yml', 'w') as outfile:
+    with open('./growlog.yml', 'w') as outfile:
         yaml.dump(data, outfile, default_flow_style=False)
 
 
@@ -79,9 +65,32 @@ def add_to_growlog(crop_data):
     new_crop = Crop(**crop_data)
     log = load_growlog()
     log.append(new_crop)
+    _save(log)
+
+
+def _save(log):
     log_data = convert_list_objs(log)
     save_growlog(log_data)
 
 
 def create_growlog():
     return []
+
+
+def update_crop_in_growlog(name, key, val):
+    growlog = load_growlog()
+    for crop in growlog:
+        if crop.name == name:
+            new_data = crop.to_dict()
+            new_data[key] = val
+            growlog.remove(crop)
+            growlog.append(Crop(**new_data))
+            _save(growlog)
+
+
+def delete_crop_from_growlog(name):
+    growlog = load_growlog()
+    for crop in growlog:
+        if crop.name == name:
+            growlog.remove(crop)
+            _save(growlog)

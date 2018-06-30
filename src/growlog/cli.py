@@ -20,18 +20,28 @@ import click
 
 from growlog.main import add_to_growlog
 from growlog.main import create_growlog
+from growlog.main import delete_crop_from_growlog
 from growlog.main import load_growlog
 from growlog.main import print_growlog
+from growlog.main import update_crop_in_growlog
 
 
 @click.command()
-def main():
+@click.option('--add', is_flag=True, help='Add a crop to your growlog')
+@click.option('--update', is_flag=True, help='Update a crop in your growlog')
+@click.option('--remove', is_flag=True, help='Remove a crop from your growlog')
+def main(add, update, remove):
     growlog = load_growlog()
     if growlog:
-        click.echo('Here is your current growlog:\n')
         print_growlog(growlog)
+        if add:
+            new_crop()
+        elif update:
+            update_crop()
+        elif remove:
+            delete_crop()
     else:
-        click.echo('No growlog found, creating a new one!\n\n')
+        click.echo('No growlog found, creating a new one!\n')
         create_growlog()
         new_crop()
 
@@ -43,10 +53,38 @@ def new_crop():
     crop_data = {}
     crop_data['name'] = click.prompt('What type of plant is this?')
     crop_data['environment'] = click.prompt(
-        'Grown outdoor or indoor?', default='outdoor')
+        'Grown outdoor or indoor?', default='outdoor',
+        type=click.Choice(['outdoor', 'indoor']))
     default_date = datetime.today().strftime('%m-%d-%Y')
     crop_data['start_date'] = click.prompt(
         'What is the start date? (dd-mm-yy)', default=default_date)
-    crop_data['qty'] = click.prompt('Quantity?', default=1)
+    crop_data['qty'] = click.prompt(
+        'Quantity?', default=1, type=click.IntRange(min=1))
     crop_data['notes'] = click.prompt('Notes?')
     add_to_growlog(crop_data)
+
+
+def update_crop():
+    growlog = load_growlog()
+    if not growlog:
+        click.echo('No growlog found')
+        return
+    names = [crop.name for crop in growlog]
+    name = click.prompt('Which crop do you want to update?', type=click.Choice(names))
+    key = click.prompt('Which field do you want to update?', type=click.Choice(growlog[0].to_dict().keys()))
+    val = click.prompt('New value for {0}?'.format(key))
+    update_crop_in_growlog(name, key, val)
+
+
+def delete_crop():
+    growlog = load_growlog()
+    if not growlog:
+        click.echo('No growlog found')
+        return
+    names = [crop.name for crop in growlog]
+    name = click.prompt('Which crop do you want to delete?', type=click.Choice(names))
+    delete_crop_from_growlog(name)
+
+
+def add():
+    new_crop()
