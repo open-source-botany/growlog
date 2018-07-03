@@ -24,7 +24,7 @@ def read(*names, **kwargs):
 
 setup(
     name='growlog',
-    version='0.4.0',
+    version='0.4.1',
     license='MIT license',
     description='A simple CLI garden journal',
     long_description='%s\n%s' % (
