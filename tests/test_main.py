@@ -69,13 +69,13 @@ class TestLoader(unittest.TestCase):
     @patch('growlog.main.load_growlog', lambda *x: [])
     @patch('growlog.main.save_growlog')
     def test_add_to_growlog(self, save_mock=None):
-        crop_data = dict(name="Cannabis", qty=420, notes="Great for eating disorders")
+        crop_data = dict(name="Cannabis", qty=420, start_date="9-11-2001", notes="Great for eating disorders")
         add_to_growlog(crop_data)
         save_mock.assert_called_once_with([{
             'environment': 'outdoor',
             'name': 'Cannabis',
             'qty': 420,
-            'start_date': '2018',
+            'start_date': '9-11-2001',
             'harvest_date': None,
             'notes': 'Great for eating disorders'
         }])
@@ -87,7 +87,7 @@ class TestLoader(unittest.TestCase):
     @patch('growlog.main.load_growlog')
     def test_update_crop_in_growlog(self, load_mock=None, save_mock=None):
         load_mock.return_value = [
-            Crop(name="Cannabis", qty=420, notes="Good to grow")
+            Crop(name="Cannabis", qty=420, start_date="9-11-2001", notes="Good to grow")
         ]
         update_crop_in_growlog(name="Cannabis", key="notes", val="Good to dry")
 
@@ -95,7 +95,7 @@ class TestLoader(unittest.TestCase):
             'environment': 'outdoor',
             'name': 'Cannabis',
             'qty': 420,
-            'start_date': '2018',
+            'start_date': '9-11-2001',
             'harvest_date': None,
             'notes': 'Good to dry'
         }])
